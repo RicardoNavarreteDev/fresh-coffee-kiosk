@@ -1,4 +1,23 @@
-export const products = [
+function getProductDescription(name: string, categoryId: number) {
+    switch (categoryId) {
+        case 1:
+            return `${name}. Café preparado al momento, con sabor intenso y una textura perfecta para acompañar tu día.`
+        case 2:
+            return `${name}. Opción salada y contundente, ideal para un almuerzo rápido con mucho sabor.`
+        case 3:
+            return `${name}. Pizza horneada con ingredientes clásicos y una capa generosa de queso.`
+        case 4:
+            return `${name}. Dulce recién preparado, con masa suave y un topping pensado para darte un gusto.`
+        case 5:
+            return `${name}. Pastelería de vitrina con un perfil dulce y casero, perfecta para acompañar un café.`
+        case 6:
+            return `${name}. Snack dulce para compartir o disfrutar en cualquier momento del día.`
+        default:
+            return `${name}. Producto preparado para disfrutar en Fresh Coffee.`
+    }
+}
+
+const baseProducts = [
     {
         name: "Café Caramel con Chocolate",
         price: 59.9,
@@ -354,3 +373,10 @@ export const products = [
         categoryId: 3
       }
 ]
+
+export const products = baseProducts.map((product) => ({
+    ...product,
+    description: getProductDescription(product.name, product.categoryId),
+    price: Math.round(product.price * 100),
+    stock: 20,
+}))

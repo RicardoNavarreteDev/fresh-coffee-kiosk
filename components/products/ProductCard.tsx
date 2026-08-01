@@ -1,36 +1,29 @@
-import { formatCurrency, getImagePath } from "@/src/utils"
 import { Product } from "@prisma/client"
-import Image from "next/image"
 import AddProductButton from "./AddProductButton"
+import ProductQuickView from "./ProductQuickView"
 
 type ProductCardProps = {
     product: Product
 }
 
 export default function ProductCard({product} : ProductCardProps) {
+  const isOutOfStock = product.stock <= 0
 
-    const imagePath = getImagePath(product.image)
-    
   return (
-    <div className="border bg-white shadow-2xl rounded-lg">
+    <article className={`panel relative flex h-full flex-col overflow-hidden rounded-[2rem] transition ${isOutOfStock ? 'opacity-95' : 'hover:-translate-y-1 hover:shadow-lg'}`}>
+        {isOutOfStock ? (
+          <div className="pointer-events-none absolute z-10 m-4 inline-flex w-fit rounded-full border border-rose-200 bg-white/95 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-rose-700 shadow-sm">
+            Agotado
+          </div>
+        ) : null}
+        <ProductQuickView product={product} />
 
-        <Image
-            width={400}
-            height={500}
-            src={imagePath}
-            alt={`Imagen platillo ${product.name}`}
-        />
-
-        <div className="p-5">
-            <h3 className="text-2xl font-bold">{product.name}</h3>
-            <p className="mt-5 font-black text-4xl text-amber-500">
-                { formatCurrency(product.price) }
-            </p>
+        <div className="mt-auto px-6 pb-6">
             <AddProductButton
                 product={product}
             />
         </div>
 
-    </div>
+    </article>
   )
 }

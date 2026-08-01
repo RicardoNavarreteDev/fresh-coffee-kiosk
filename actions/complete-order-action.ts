@@ -18,11 +18,12 @@ export async function completeOrder(formData: FormData){
                     id: result.data.orderId
                 },
                 data:{
-                    status: true,
+                    status: 'COMPLETED',
                     orderReadyAt: new Date(Date.now())            
                 }
             })
             revalidatePath('/admin/orders')
+            revalidatePath('/orders')
         } catch (error) {
             console.log(error);
         }

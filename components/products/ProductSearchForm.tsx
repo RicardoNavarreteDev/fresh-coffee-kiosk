@@ -3,12 +3,15 @@
 import { SearchSchema } from "@/src/schema"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
+import { FormEvent } from "react"
 
 
 export default function ProductSearchForm() {
     const router = useRouter()
 
-    const handleSearchForm = (formData: FormData) => {
+    const handleSearchForm = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        const formData = new FormData(event.currentTarget)
         const data = {
             search: formData.get('search')
         }
@@ -24,19 +27,19 @@ export default function ProductSearchForm() {
 
     return (
         <form 
-            action={handleSearchForm}
-            className="flex items-center"
+            onSubmit={handleSearchForm}
+            className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center"
         >
             <input 
                 type="text"
                 name="search" 
                 placeholder="Buscar Producto"
-                className="p-2 placeholder-gray-400 w-full"
+                className="field-input w-full sm:min-w-72"
             />
             <input 
                 type="submit" 
                 value={'Buscar'}
-                className="bg-indigo-600 p-2 uppercase text-white cursor-pointer"
+                className="button-secondary cursor-pointer"
             />
         </form>
     )

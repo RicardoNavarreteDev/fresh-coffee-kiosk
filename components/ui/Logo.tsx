@@ -1,15 +1,22 @@
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Logo() {
+type LogoProps = {
+  href?: string
+  className?: string
+  imageClassName?: string
+}
+
+export default function Logo({ href = '/', className = 'mt-5 flex justify-center', imageClassName = 'relative h-40 w-40 transition hover:scale-[1.02]' }: LogoProps) {
   return (
-    <div className="flex justify-center mt-5">
-        <div className="relative w-40 h-40">
-            <Image 
-                fill
-                alt="Logotipo Fresh Coffe"
-                src='/logo.svg'
-            />
-        </div>
+    <div className={className}>
+      <Link href={href} className={imageClassName}>
+        <Image 
+            fill
+            alt="Logotipo Fresh Coffee"
+            src='/logo.svg'
+        />
+      </Link>
     </div>
   )
 }

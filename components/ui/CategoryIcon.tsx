@@ -11,12 +11,15 @@ export default function CategoryIcon({category} : CategoryIconProps ) {
   const params = useParams<{category: string}>()
   
   return (
-    <div
+    <Link
+        href={`/order/${category.slug}`}
         className={`${
-          category.slug === params.category ? 'bg-amber-400' : ''
-        } flex items-center gap-4 w-full border-t border-gray-200 p-3 last-of-type:border-b`}
+          category.slug === params.category
+            ? 'border-amber-300 bg-amber-50 text-amber-950 shadow-sm'
+            : 'border-transparent text-slate-700 hover:border-slate-200 hover:bg-slate-50'
+        } mx-3 flex items-center gap-4 rounded-2xl border px-4 py-3 transition`}
     >
-      <div className="w-16 h-16 relative">
+      <div className="relative h-14 w-14 rounded-2xl bg-white">
         <Image
         fill
         src={`/icon_${category.slug}.svg`} 
@@ -24,11 +27,9 @@ export default function CategoryIcon({category} : CategoryIconProps ) {
         />
         </div>
 
-        <Link
-        href={`/order/${category.slug}`} 
-        className="text-xl font-bold">
+        <span className="text-base font-semibold tracking-tight">
         {category.name}
-        </Link>
-    </div>
+        </span>
+    </Link>
   )
 }

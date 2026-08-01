@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import { updateProduct } from "@/actions/update-product-action";
+import { FormEvent } from "react";
 
 
 export default function EditProductForm({children}: {children: React.ReactNode}) {
@@ -13,11 +14,15 @@ export default function EditProductForm({children}: {children: React.ReactNode})
     const params = useParams()
     const id = +params.id!
 
-    const handleSubmit = async (formData: FormData) =>{
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) =>{
+        event.preventDefault()
+        const formData = new FormData(event.currentTarget)
         const data = {
             name: formData.get('name'),
             price: formData.get('price'),
+            stock: formData.get('stock'),
             categoryId: formData.get('categoryId'),
+            description: formData.get('description'),
             image: formData.get('image')
         }
         
@@ -39,15 +44,15 @@ export default function EditProductForm({children}: {children: React.ReactNode})
         router.push('/admin/products')
     }
   return (
-    <div className="bg-white mt-10 px-5 py-5 rounded-md shadow-md max-w-3xl mx-auto">
+    <div className="panel mt-10 max-w-3xl rounded-[2rem] px-5 py-5 shadow-sm mx-auto lg:p-8">
         <form 
             className="space-y-5"
-            action={handleSubmit}
+            onSubmit={handleSubmit}
         >
             {children}
             <input 
                 type="submit" 
-                className="bg-indigo-600 hover:bg-indigo-800 text-white w-full mt-5 p-3 uppercase font-bold cursor-pointer rounded-lg"
+                className="button-primary mt-5 w-full cursor-pointer"
                 value='Guardar Cambios'
             />
 

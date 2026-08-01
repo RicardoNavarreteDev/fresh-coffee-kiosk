@@ -13,15 +13,17 @@ type AdminRouteProps = {
 export default function AdminRoute({link}: AdminRouteProps) {
 
   const pathname = usePathname()
-  const isActive = pathname.startsWith(link.url)
+  const isActive = !link.blank && pathname.startsWith(link.url)
+  const isExternal = link.blank
 
   return (
     <Link
-        className={`${isActive ? 'bg-amber-400' : ''} font-bold text-lg border-t border-gray-200 p-3 last-of-type:border-b`}
+        className={`${isActive ? 'border-amber-300 bg-amber-50 text-slate-900 shadow-sm ring-1 ring-amber-200' : isExternal ? 'border-slate-200 bg-slate-50/80 text-slate-600 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900' : 'border-transparent text-slate-700 hover:border-slate-200 hover:bg-slate-50'} mx-3 flex items-center justify-between rounded-2xl border px-4 py-3 text-base font-semibold tracking-tight transition`}
         href={link.url}
         target={link.blank ? '_blank' : ''}
     >
-        {link.text}
+        <span>{link.text}</span>
+        {isExternal ? <span className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">Web</span> : null}
     </Link>
   )
 }

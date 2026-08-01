@@ -6,18 +6,21 @@ type LatestOrderItemProps = {
 
 export default function LatestOrderItem({order} : LatestOrderItemProps) {
   return (
-    <div className="bg-white shadow p-5 space-y-5 rounded-lg">
-        <p className="text-2xl font-bold text-slate-600">
+    <div className="panel space-y-5 rounded-[2rem] p-6">
+        <div className="flex items-center justify-between gap-4">
+          <p className="text-2xl font-semibold tracking-tight text-slate-900">
             Cliente: {order.name}
-        </p>
+          </p>
+          <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-800">Lista</span>
+        </div>
 
         <ul 
-            className="divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-gray-500"
+            className="divide-y divide-slate-200 border-t border-slate-200 text-sm font-medium text-slate-500"
             role="list">
                 {order.orderProducts.map(product => (
                     <li
                         key={product.id}
-                        className="flex py-6 text-lg"
+                        className="flex py-5 text-lg"
                     >
                         <p>
                             <span className="font-bold">

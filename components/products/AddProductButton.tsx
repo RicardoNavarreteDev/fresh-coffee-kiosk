@@ -5,17 +5,24 @@ import { useStore } from "@/src/store";
 
 type AddProductButtonProps = {
     product: Product
+    className?: string
+    onAdd?: () => void
 }
 
-export default function AddProductButton({product} : AddProductButtonProps) {
+export default function AddProductButton({product, className = 'button-primary mt-6 w-full', onAdd} : AddProductButtonProps) {
 
   const addToOrder = useStore((state) => state.addToOrder)
+  const isOutOfStock = product.stock <= 0
   return (
     <button
       type="button"
-      className="bg-indigo-600 hover:bg-indigo-800 text-white w-full mt-5 p-3 uppercase font-bold cursor-pointer rounded-lg transition transform hover:scale-105 duration-700"
-    onClick={() => addToOrder(product)}
-    >Agregar
-    </button>
+      className={className}
+      disabled={isOutOfStock}
+      onClick={() => {
+        addToOrder(product)
+        onAdd?.()
+      }}
+     >{isOutOfStock ? 'Agotado' : 'Agregar'}
+     </button>
   );
 }

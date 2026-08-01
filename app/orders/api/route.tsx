@@ -5,9 +5,7 @@ export async function GET() {
     const orders = await prisma.order.findMany({
         take: 5,
         where: {
-            orderReadyAt: {
-                not: null
-            }
+            status: 'COMPLETED'
         },
         orderBy: {
             orderReadyAt: 'desc'

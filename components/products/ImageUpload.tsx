@@ -19,50 +19,47 @@ export default function ImageUpload({image}: {image: string | undefined}) {
         }}
         uploadPreset="RicardoN"
         options={{
-            maxFiles: 1
+            maxFiles: 1,
+            clientAllowedFormats: ['jpg', 'jpeg', 'webp'],
+            maxFileSize: 2000000,
         }}
     >
         {({open}) => (
             <>
-                <div className="space-y-2 ">
-                    <label className="text-slate-800">Imagen Producto</label>
-                    <div 
-                        className="relative cursor-pointer hover:opacity-70 transition p-10 border-neutral-300 flex flex-col justify-center items-center gap-4 text-neutral-600 bg-slate-100"
-                        onClick={() => open()}
-                    >
-                        <TbPhotoPlus
-                            size={50}
-                        />
-                        <p className="text-lg font-semibold">Agregar Imagen</p>
+                <div className="space-y-4">
+                    <div className="space-y-2">
+                        <label className="text-sm font-semibold text-slate-700">Imagen del producto</label>
+                        <p className="text-sm leading-6 text-slate-500">Formatos permitidos: JPG, JPEG y WEBP. Tamaño máximo: 2 MB.</p>
+                    </div>
 
-                        {imageUrl && (
-                            <div
-                                className="absolute inset-0 w-full h-full"
-                            >
-                                <Image
-                                    fill
-                                    style={{objectFit: 'contain'}}
-                                    src={imageUrl}
-                                    alt="Imagen Producto"
-                                />
-                            </div>
-                        )}
+                    <div className="rounded-[1.5rem] border border-slate-200 bg-white p-4 ring-1 ring-slate-100">
+                        <button
+                            type="button"
+                            onClick={() => open()}
+                            className="inline-flex rounded-2xl border border-slate-300 bg-slate-50 px-5 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-slate-700 transition hover:border-slate-400 hover:bg-white"
+                        >
+                            <span className="mr-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white ring-1 ring-slate-200">
+                                <TbPhotoPlus size={22} />
+                            </span>
+                            Subir foto
+                        </button>
                     </div>
                 </div>
-                {image && !imageUrl && (
+
+                {(imageUrl || image) && (
                     <div className="space-y-2">
-                        <label>Imagen Actual: </label>
-                        <div className="relative w-64 h-64">
+                        <label className="text-sm font-semibold text-slate-700">Vista previa</label>
+                        <div className="relative h-64 w-64 overflow-hidden rounded-[1.5rem] bg-slate-100 ring-1 ring-slate-200 shadow-sm">
                             <Image
                                 fill
-                                src={getImagePath(image)}
+                                src={imageUrl ? imageUrl : getImagePath(image!)}
                                 alt="Imagen Producto"
-                                style={{objectFit: 'contain'}}
+                                style={{objectFit: 'cover'}}
                             />
                         </div>
                     </div>
                 )}
-                <input type="hidden" name="image" defaultValue={imageUrl ? imageUrl : image} />
+                <input type="hidden" name="image" value={imageUrl ? imageUrl : image ?? ''} readOnly />
             </>
         )}
     </CldUploadWidget>

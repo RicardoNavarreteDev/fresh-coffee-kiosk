@@ -17,14 +17,14 @@ export default async function ProductForm({product}: ProductFormProps) {
         <>
             <div className="space-y-2">
                 <label
-                    className="text-slate-800"
+                    className="text-sm font-semibold text-slate-700"
                     htmlFor="name"
                 >Nombre:</label>
                 <input
                     id="name"
                     type="text"
                     name="name"
-                    className="block w-full p-3 bg-slate-100"
+                    className="field-input"
                     placeholder="Nombre Producto"
                     defaultValue={product?.name}
                 />
@@ -32,25 +32,39 @@ export default async function ProductForm({product}: ProductFormProps) {
 
             <div className="space-y-2">
                 <label
-                    className="text-slate-800"
+                    className="text-sm font-semibold text-slate-700"
                     htmlFor="price"
-                >Precio:</label>
+                >Precio (CLP):</label>
                 <input
                     id="price"
                     name="price"
-                    className="block w-full p-3 bg-slate-100"
-                    placeholder="Precio Producto"
+                    className="field-input"
+                    placeholder="Ej: 5.990"
                     defaultValue={product?.price}
                 />
             </div>
 
             <div className="space-y-2">
                 <label
-                    className="text-slate-800"
+                    className="text-sm font-semibold text-slate-700"
+                    htmlFor="stock"
+                >Stock:</label>
+                <input
+                    id="stock"
+                    name="stock"
+                    className="field-input"
+                    placeholder="Ej: 20"
+                    defaultValue={product?.stock ?? 20}
+                />
+            </div>
+
+            <div className="space-y-2">
+                <label
+                    className="text-sm font-semibold text-slate-700"
                     htmlFor="categoryId"
                 >Categoría:</label>
                 <select
-                    className="block w-full p-3 bg-slate-100"
+                    className="field-input"
                     id="categoryId"
                     name="categoryId"
                     defaultValue={product?.categoryId}
@@ -64,6 +78,21 @@ export default async function ProductForm({product}: ProductFormProps) {
                     ))}
                 </select>
             </div>
+
+            <div className="space-y-2">
+                <label
+                    className="text-sm font-semibold text-slate-700"
+                    htmlFor="description"
+                >Descripción:</label>
+                <textarea
+                    id="description"
+                    name="description"
+                    className="field-input min-h-32 resize-y"
+                    placeholder="Describe el producto para el modal del cliente"
+                    defaultValue={product?.description ?? ''}
+                />
+            </div>
+
             <ImageUpload
                 image={product?.image}
             />

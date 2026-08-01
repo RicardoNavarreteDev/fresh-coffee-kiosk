@@ -15,13 +15,17 @@ interface Store {
 export const useStore = create<Store>((set, get) => ({
     order:[],
     addToOrder: (product) =>{
+        if (product.stock <= 0) {
+            return
+        }
+
         const {...data} = product
         let order : OrderItem[] = []
         if(get().order.find( item => item.id === product.id)){
             order = get().order.map( item => item.id === product.id ? {
                 ...item,
-                quantity: item.quantity + 1,
-                subtotal: item.price * (item.quantity + 1)
+                quantity: item.quantity < item.stock ? item.quantity + 1 : item.quantity,
+                subtotal: item.price * (item.quantity < item.stock ? item.quantity + 1 : item.quantity)
             }: item)
         }else{
             order = [...get().order, {
@@ -39,8 +43,8 @@ export const useStore = create<Store>((set, get) => ({
         set((state) => ({
             order: state.order.map( item => item.id === id ? {
                 ...item,
-                quantity: item.quantity + 1,
-                subtotal: item.price * (item.quantity + 1)
+                quantity: item.quantity < item.stock ? item.quantity + 1 : item.quantity,
+                subtotal: item.price * (item.quantity < item.stock ? item.quantity + 1 : item.quantity)
             }: item)
         }))
     },

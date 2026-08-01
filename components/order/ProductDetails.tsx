@@ -1,7 +1,8 @@
 import { useStore } from "@/src/store";
 import { OrderItem } from "@/src/types"
-import { formatCurrency } from "@/src/utils";
+import { formatCurrency, getImagePath } from "@/src/utils";
 import { XCircleIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 import { useMemo } from "react";
 
 
@@ -18,34 +19,54 @@ export default function ProductDetails({ item }: ProductDetailsProps) {
   const decreaseQuantity = useStore((state) => state.decreaseQuantity)
   const removeItem = useStore((state) => state.removeItem)
   const disableDecreaseButton = useMemo(() =>item.quantity === MIN_ITEMS, [item])
-  const disableIncreaseButton = useMemo(() =>item.quantity === MAX_ITEMS, [item])
+  const disableIncreaseButton = useMemo(() =>item.quantity === Math.min(MAX_ITEMS, item.stock), [item])
 
   return (
-    <div className="space-y-1 p-4 bg-white  border-t border-gray-200 rounded-lg shadow-2xl">
-      <div className="space-y-4">
-        <div className="flex justify-between items-start">
-          <p className="text-xl font-bold">{item.name} </p>
-
-          <button type="button" onClick={() => removeItem(item.id)}>
-            <XCircleIcon className="text-red-600 h-8 w-8" />
-          </button>
+    <div className="panel rounded-[2rem] p-5">
+      <div className="flex items-start gap-4">
+        <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[1.5rem] bg-slate-100 shadow-sm ring-1 ring-slate-200">
+          <Image
+            fill
+            className="object-cover"
+            src={getImagePath(item.image)}
+            alt={`Imagen de ${item.name}`}
+          />
         </div>
-        <p className="text-2xl text-amber-500 font-black">{formatCurrency(item.price)}</p>
-        <div className="flex gap-5 px-10 py-2 bg-gray-100 w-fit rounded-lg">
-          <button type="button" onClick={() => decreaseQuantity(item.id)} disabled={disableDecreaseButton} className="disabled:opacity-20">
-            <MinusIcon className="h-6 w-6" />
-          </button>
 
-          <p className="text-lg font-black ">{item.quantity}</p>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0 pt-4">
+              <p className="text-xl font-semibold tracking-tight text-slate-900">{item.name}</p>
+            </div>
 
-          <button type="button" onClick={() => increaseQuantity(item.id)} disabled={disableIncreaseButton} className="disabled:opacity-20">
-            <PlusIcon className="h-6 w-6" />
-          </button>
+            <button
+              type="button"
+              onClick={() => removeItem(item.id)}
+              className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-red-100 bg-red-50 text-red-500 transition hover:bg-red-100"
+              aria-label={`Quitar ${item.name} del pedido`}
+            >
+              <XCircleIcon className="h-6 w-6" />
+            </button>
+          </div>
         </div>
-        <p className="text-xl font-black text-gray-700">
-          Subtotal: {""}
-          <span className="font-normal">{formatCurrency(item.subtotal)}</span>
+      </div>
+
+      <div className="mt-5 flex items-center justify-between gap-4">
+        <p className="inline-flex w-fit rounded-full bg-amber-50 px-4 py-2 text-2xl font-black text-amber-600 ring-1 ring-amber-100">
+          {formatCurrency(item.price)}
         </p>
+
+        <div className="flex items-center gap-5 rounded-[1.5rem] bg-slate-100 px-4 py-3 ring-1 ring-slate-200">
+          <button type="button" onClick={() => decreaseQuantity(item.id)} disabled={disableDecreaseButton} className="rounded-full bg-white p-2 text-slate-700 shadow-sm transition disabled:opacity-20">
+            <MinusIcon className="h-5 w-5" />
+          </button>
+
+          <p className="min-w-8 text-center text-lg font-black text-slate-900">{item.quantity}</p>
+
+          <button type="button" onClick={() => increaseQuantity(item.id)} disabled={disableIncreaseButton} className="rounded-full bg-white p-2 text-slate-700 shadow-sm transition disabled:opacity-20">
+            <PlusIcon className="h-5 w-5" />
+          </button>
+        </div>
       </div>
     </div>
   );
