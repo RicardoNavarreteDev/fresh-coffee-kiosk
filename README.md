@@ -259,4 +259,6 @@ Este proyecto está bajo la licencia MIT.
 
 Puedes usar, copiar, modificar y distribuir el software libremente, siempre que se incluya el aviso de copyright y la licencia correspondiente.
 
+Consulta el archivo [LICENSE](./LICENSE) para más detalles.
+
 
