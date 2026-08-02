@@ -96,9 +96,6 @@ Variables principales:
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DB"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 
-ADMIN_EMAIL="admin@freshcoffee.cl"
-ADMIN_PASSWORD="Admin1234!"
-ADMIN_SESSION_SECRET="cambia-esto-en-produccion"
 ```
 
 Notas:
