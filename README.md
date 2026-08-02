@@ -249,6 +249,14 @@ npx prisma validate
 npx prisma db seed
 ```
 
+## Creado por
+
+Ricardo Navarrete Soto
+
 ## Licencia
 
-Uso interno o educativo, según tu necesidad. Ajusta esta sección si vas a publicar el proyecto con una licencia formal.
+Este proyecto está bajo la licencia MIT.
+
+Puedes usar, copiar, modificar y distribuir el software libremente, siempre que se incluya el aviso de copyright y la licencia correspondiente.
+
+
